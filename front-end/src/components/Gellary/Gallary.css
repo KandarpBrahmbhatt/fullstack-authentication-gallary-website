@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Gallary.css */
+
+.gallery {
+  text-align: center;
+  padding: 20px;
+}
+
+.gallery h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.gallery input {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.gallery input:focus {
+  border-color: #007bff;
+}
+
+/* Product Section */
+.product {
+  padding: 20px;
+}
+
+.imges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Individual item */
+.item {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+}
+
+.item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.item p {
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+/* 
+/* Hover Effect */
+/* .item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); */
+/* } */
+*/
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .gallery h1 {
+    font-size: 1.6rem;
+  }
+
+  .gallery input {
+    width: 95%;
+  }
+
+  .item img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery h1 {
+    font-size: 1.3rem;
+  }
+
+  .item img {
+    height: 150px;
+  }
+
+  .item p {
+    font-size: 0.9rem;
+  }
+}
