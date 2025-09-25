@@ -15,7 +15,9 @@
   margin-bottom: 10px;
   color: #333;
 }
-
+.line {
+  /* display: flex; */
+}
 .gallery input {
   width: 90%;
   max-width: 400px;
@@ -31,7 +33,9 @@
 .gallery input:focus {
   border-color: #007bff;
 }
-
+.gallery input[type="file"] {
+  border: none;
+}
 /* Product Section */
 .product {
   padding: 20px;
@@ -71,11 +75,10 @@
 }
 /* 
 /* Hover Effect */
-/* .item:hover {
+.item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); */
-/* } */
-*/
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
@@ -104,4 +107,39 @@
   .item p {
     font-size: 0.9rem;
   }
+}
+
+/* pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: blue;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: white;
+  cursor: not-allowed;
+  color: black;
+  border: 2px solid blue;
+}
+
+.pagination span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }

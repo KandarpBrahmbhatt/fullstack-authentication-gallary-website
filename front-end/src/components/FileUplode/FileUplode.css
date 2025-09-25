@@ -1,0 +1,65 @@
+/* Container fileuplode */
+.fileuplode {
+  width: 100px; /* default width */
+  height: 100px; /* default height */
+  margin: 20px auto;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  background-color: #f9f9f9;
+}
+
+.fileuplode:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Image inside the fileuplode */
+.fileuplode img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.fileuplode:hover img {
+  transform: scale(1.05);
+}
+
+/* Optional: Add an overlay text like "Click to upload" */
+.fileuplode::after {
+  content: "Click to Upload";
+  position: absolute;
+  color: #666;
+  font-size: 16px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.fileuplode:hover::after {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fileuplode {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fileuplode {
+    width: 120px;
+    height: 120px;
+  }
+}

@@ -1,53 +1,73 @@
-import React from 'react'
-import "./Gallary.css"
-import { items } from"../../data.jsx"
-// import { useState } from 'react'
+import { useState } from "react";
+import "./Gallary.css";
+import { items } from "../../data.jsx";
+import FileUplode from "../FileUplode/FileUplode.jsx";
+import LikeButton from "../LikeButton/LikeButton.jsx";
+import { FaComments } from "react-icons/fa";
+import Comment from "../Comment/Comment.jsx";
+import { Link } from "react-router-dom";
 const Gallary = () => {
-//   const [gallary,setGallary] = useState([])
-//   const [currentPage,setCurrentPage] = useState(1)
-//   const [postperpage,setPostperpage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1); //This is a state variable that stores the current page number.
+  const itemsPerPage = 10; // how many items per page
 
-//   const lastPostIndex = currentPage * postperpage
-//   const firstPostIndex = lastPostIndex * postperpage
-// const currentPage = gallary.slice(firstPostIndex,lastPostIndex)
+  // Calculate start & end indexes for slicing items
+  const indexOfLastItem = currentPage * itemsPerPage; //indexOfLastItem = 1 * 10 = 10
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage; //indexOfFirstItem = 10 - 10 = 0
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Total pages
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+
+  // Page change handlers
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   return (
     <>
+      <div className="gallery">
+        <h1>Gallery</h1>
 
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+        <input type="text" placeholder="Search Here" />
+        <FileUplode />
+      </div>
 
-    <div className='gallery'>
-      <h1>Gallery</h1>
-      <input type="text" placeholder='Search Hear' />
-    </div>
-
-    <div className="product">
-       <div className="imges">
-                    {items.map((prodct) => (
-                        <div className='item'>
-                                <img src={prodct.imgSrc} alt="" />
-                            <p>{prodct.name}</p>
-                        </div>
-                    ))}
-                </div>
-    </div>
+      <div className="product">
+        <div className="imges">
+          {currentItems.map((prodct, index) => (
+            <div className="item" key={index}>
+              <img src={prodct.imgSrc} alt={prodct.name} />
+              <p>{prodct.name}</p>
+              <LikeButton /> {/*likebutton */}
+              <Link to={"/comment"}>
+                {" "}
+                <FaComments />{" "}
+              </Link>
+              {/*CommentButton */}
+              {/* <Comment /> */}
+              {/* <BootstrapModel /> */}
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Pagination Controls */}
+      <div className="pagination">
+        <button onClick={goToPrevPage} disabled={currentPage === 1}>
+          Prev
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Gallary
+export default Gallary;
