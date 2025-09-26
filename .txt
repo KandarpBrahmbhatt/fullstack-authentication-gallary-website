@@ -1,0 +1,24 @@
+Data base Design in mongodb 
+1 users
+{
+  "_id": ObjectId,
+  "email": String,              // unique
+  "passwordHash": String,       // hashed with bcrypt/argon2
+  "username": String,           // unique display handle
+  "displayName": String,
+  "bio": String,
+  "avatarUrl": String,          // profile photo
+  "createdAt": Date,
+  "updatedAt": Date
+}
+
+2. photos
+
+{
+  "_id": ObjectId,
+  "ownerId": ObjectId,          // ref -> users._id
+  "title": String,
+  "created": Date,
+  "updated": Date
+}
+

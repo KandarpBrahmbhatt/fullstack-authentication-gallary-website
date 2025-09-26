@@ -79,7 +79,9 @@
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-
+.multipal-button {
+  display: flex;
+}
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .gallery h1 {

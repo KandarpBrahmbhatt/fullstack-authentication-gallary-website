@@ -13,7 +13,13 @@ app.get("/", (req, resp) => {
 
 // middalware
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173", // origin no matlab ahiya thi data aavase to aene allow karvade.
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"],
+  credentials: true,
+};
+app.use(cors(corsOptions)); // aa middalware use karvu pade cors ma
+
 app.use("/auth", AuthRouter); // router use karva mate middleware kari ne import kari 6e.
 
 const port = process.env.PORT || 8080; // .env file mathi je port lakhiyo 6e use karva lakhiyu

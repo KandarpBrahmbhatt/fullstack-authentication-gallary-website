@@ -4,8 +4,8 @@ import { items } from "../../data.jsx";
 import FileUplode from "../FileUplode/FileUplode.jsx";
 import LikeButton from "../LikeButton/LikeButton.jsx";
 import { FaComments } from "react-icons/fa";
-import Comment from "../Comment/Comment.jsx";
 import { Link } from "react-router-dom";
+import BootstrapModel from "../BootstrapModel/BootstrapModel.jsx";
 const Gallary = () => {
   const [currentPage, setCurrentPage] = useState(1); //This is a state variable that stores the current page number.
   const itemsPerPage = 10; // how many items per page
@@ -42,14 +42,12 @@ const Gallary = () => {
             <div className="item" key={index}>
               <img src={prodct.imgSrc} alt={prodct.name} />
               <p>{prodct.name}</p>
-              <LikeButton /> {/*likebutton */}
-              <Link to={"/comment"}>
-                {" "}
-                <FaComments />{" "}
-              </Link>
-              {/*CommentButton */}
-              {/* <Comment /> */}
-              {/* <BootstrapModel /> */}
+              <div className="multipal-button">
+                <LikeButton /> {/*likebutton */}
+                {/*CommentButton */}
+                {/* <Comment /> */}
+                <BootstrapModel />
+              </div>
             </div>
           ))}
         </div>

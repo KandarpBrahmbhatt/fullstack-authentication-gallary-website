@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../Comment/Comment.css";
+
 const Comment = () => {
   const [comment, setComment] = useState();
   const [comments, setComments] = useState([]); //Declares comments (an array of submitted comments) and setComments to update it.
