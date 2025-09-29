@@ -221,7 +221,7 @@
 import React, { useState } from "react";
 import "./Signup.css";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
   // single state for all inputs
   const [user, setUser] = useState({
@@ -230,6 +230,7 @@ const Signup = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
   // universal input handler
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -251,6 +252,7 @@ const Signup = () => {
         },
         body: JSON.stringify(user),
       });
+      navigate("/login");
 
       const data = await response.json();
       console.log("Response:", data);
@@ -313,7 +315,7 @@ const Signup = () => {
         </p>
 
         <button type="submit" className="btn btn-primary">
-          Sign Up
+          Login
         </button>
       </form>
     </>
