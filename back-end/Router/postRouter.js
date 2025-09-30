@@ -1,0 +1,7 @@
+const router = require("express").Router();
+const upload = require("../Middleware/multer.js");
+const { UpdateProfile } = require("../Controller/PostController.js");
+
+router.put("/updateprofile", upload.single("profileImage"), UpdateProfile);
+
+module.exports = router;

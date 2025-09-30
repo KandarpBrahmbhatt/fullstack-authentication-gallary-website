@@ -6,6 +6,7 @@ require("./Models/db.js");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const AuthRouter = require("./Router/AuthRouter.js");
+const PostRouter = require("./Router/postRouter");
 
 app.get("/", (req, resp) => {
   resp.send("home page");
@@ -21,6 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions)); // aa middalware use karvu pade cors ma
 
 app.use("/auth", AuthRouter); // router use karva mate middleware kari ne import kari 6e.
+app.use("/auth", PostRouter); // router use karva mate middleware kari ne import kari 6e.
 
 const port = process.env.PORT || 8080; // .env file mathi je port lakhiyo 6e use karva lakhiyu
 app.listen(port, () => {

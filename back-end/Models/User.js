@@ -1,4 +1,4 @@
-const { required } = require("joi");
+const { required, string } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -18,6 +18,27 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+});
+
+const postSchema = new Schema({
+  auther: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  image: {
+    type: String,
+    // default: " ",
+  },
+
+  like: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    },
+  ],
 });
 
 const userModel = mongoose.model("users", UserSchema);
