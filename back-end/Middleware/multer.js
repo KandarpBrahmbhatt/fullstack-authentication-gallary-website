@@ -1,5 +1,6 @@
 // import multer from "multer";
-const multer = require("multer");
+import multer from "multer";
+
 // multer ek storeage banavse and ae file ne disk storage ma save kari dese. pachi ae file ne req.file use karine ae file ne aecess kari sakase.
 let storage = multer.diskStorage(
   // image user upaload kare ae kya store thase ae lakhavanu 6e niche.

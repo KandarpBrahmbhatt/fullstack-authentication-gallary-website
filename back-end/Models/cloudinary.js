@@ -1,6 +1,7 @@
 // import { v2 as cloudinary } from "cloudinary";
-const cloudinary = require("cloudinary").v2;
-const fs = require("fs");
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
+
 const uploadOnCloudinary = async (filePath) => {
   // Configuration aa cloudinary mathi copy kari ne lakhiyu 6e.
   cloudinary.config({

@@ -1,13 +1,131 @@
-const userModel = require("../Models/User");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// // const { default: genToken } = require("../Models/token");
+// import userModel from "../Models/User";
+// import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
+// import genToken from "../Models/token.js";
+// // signup functionality
+// const signUp = async (req, res) => {
+//   try {
+//     const { name, email, password } = req.body; // body mathi request aavase
 
-// signup functionality
-const signUp = async (req, res) => {
+//     // basic validation
+//     if (!name || !email || !password) {
+//       return res.status(400).json({
+//         message: "Name, email and password are required",
+//         success: false,
+//       });
+//     }
+
+//     const existing = await userModel.findOne({ email });
+//     if (existing) {
+//       return res
+//         .status(409)
+//         .json({ message: "User already exists", success: false });
+//     }
+
+//     const hashed = await bcrypt.hash(password, 10); // // hash = password sholt 10
+//     const user = new userModel({ name, email, password: hashed });
+
+//     // await user.save(); // save a data in mongodb database.
+
+//     // token
+//     let token = await genToken(user._id);
+//     res.cookie("token", {
+//       httpOnly: true,
+//       maxAge: 7 * 24 * 60 * 60 * 100, // time
+//       sameSite: "Strict",
+//       secure: process.env.NODE_ENVIREMENT === "production",
+//     });
+
+//     await user.save(); // save a data in mongodb database.
+//     return res
+//       .status(201)
+//       .json({ message: "Signup successful", success: true });
+//   } catch (err) {
+//     console.error("Signup error:", err);
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", success: false });
+//   }
+// };
+
+// // login functionality
+// const login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     // basic validation
+//     if (!email || !password) {
+//       return res
+//         .status(400)
+//         .json({ message: "Email and password are required", success: false });
+//     }
+
+//     const user = await userModel.findOne({ email });
+//     if (!user) {
+//       console.log("Login failed: user not found for email:", email);
+//       return res.status(401).json({
+//         message: "Auth failed: invalid email or password",
+//         success: false,
+//       });
+//     }
+
+//     // password ne decrept kari ne check kariyu 6e. decrept promise return karse and compare method no use karishu
+//     const isPassEqual = await bcrypt.compare(password, user.password); // password user jode thi aavase
+//     if (!isPassEqual) {
+//       console.log("Login failed: invalid password for email:", email);
+//       return res.status(401).json({
+//         message: "Auth failed: invalid email or password",
+//         success: false,
+//       });
+//     }
+
+//     if (!process.env.JWT_SECRET) {
+//       console.error("JWT_SECRET is not set in environment variables");
+//       return res
+//         .status(500)
+//         .json({ message: "Server misconfiguration", success: false });
+//     }
+
+//     // option name is expiresIn (camelCase). not expiresIN
+//     const token = jwt.sign(
+//       // sign jwt ni method 6e.
+//       { email: user.email, _id: user._id },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "24h" }
+//     );
+
+//     console.log("Login successful for:", email);
+//     return res.status(200).json({
+//       message: "Login successful",
+//       success: true,
+//       token, // use `token` for front-end convenience
+//       user: { email: user.email, name: user.name, id: user._id },
+//     });
+//   } catch (err) {
+//     console.error("Login error:", err);
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", success: false });
+//   }
+// };
+
+// module.exports = {
+//   signUp,
+//   login,
+// };
+
+import userModel from "../Models/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import genToken from "../Models/token.js"; // make sure genToken is exported correctly
+
+// Signup functionality
+export const signUp = async (req, res) => {
   try {
-    const { name, email, password } = req.body; // body mathi request aavase
+    const { name, email, password } = req.body;
 
-    // basic validation
+    // Basic validation
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "Name, email and password are required",
@@ -17,52 +135,66 @@ const signUp = async (req, res) => {
 
     const existing = await userModel.findOne({ email });
     if (existing) {
-      return res
-        .status(409)
-        .json({ message: "User already exists", success: false });
+      return res.status(409).json({
+        message: "User already exists",
+        success: false,
+      });
     }
 
-    const hashed = await bcrypt.hash(password, 10); // // hash = password sholt 10
+    const hashed = await bcrypt.hash(password, 10);
     const user = new userModel({ name, email, password: hashed });
 
-    await user.save(); // save a data in mongodb database.
+    // Save user first to get _id for token
+    await user.save();
 
-    return res
-      .status(201)
-      .json({ message: "Signup successful", success: true });
+    // Generate token
+    const token = await genToken(user._id);
+
+    // Set cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
+      sameSite: "Strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    return res.status(201).json({
+      message: "Signup successful",
+      success: true,
+      token,
+      user: { email: user.email, name: user.name, id: user._id },
+    });
   } catch (err) {
     console.error("Signup error:", err);
-    return res
-      .status(500)
-      .json({ message: "Internal server error", success: false });
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
   }
 };
 
-// login functionality
-const login = async (req, res) => {
+// Login functionality
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // basic validation
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required", success: false });
+      return res.status(400).json({
+        message: "Email and password are required",
+        success: false,
+      });
     }
 
     const user = await userModel.findOne({ email });
     if (!user) {
-      console.log("Login failed: user not found for email:", email);
       return res.status(401).json({
         message: "Auth failed: invalid email or password",
         success: false,
       });
     }
 
-    // password ne decrept kari ne check kariyu 6e. decrept promise return karse and compare method no use karishu
-    const isPassEqual = await bcrypt.compare(password, user.password); // password user jode thi aavase
+    const isPassEqual = await bcrypt.compare(password, user.password);
     if (!isPassEqual) {
-      console.log("Login failed: invalid password for email:", email);
       return res.status(401).json({
         message: "Auth failed: invalid email or password",
         success: false,
@@ -71,35 +203,29 @@ const login = async (req, res) => {
 
     if (!process.env.JWT_SECRET) {
       console.error("JWT_SECRET is not set in environment variables");
-      return res
-        .status(500)
-        .json({ message: "Server misconfiguration", success: false });
+      return res.status(500).json({
+        message: "Server misconfiguration",
+        success: false,
+      });
     }
 
-    // option name is expiresIn (camelCase). not expiresIN
     const token = jwt.sign(
-      // sign jwt ni method 6e.
       { email: user.email, _id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
 
-    console.log("Login successful for:", email);
     return res.status(200).json({
       message: "Login successful",
       success: true,
-      token, // use `token` for front-end convenience
+      token,
       user: { email: user.email, name: user.name, id: user._id },
     });
   } catch (err) {
     console.error("Login error:", err);
-    return res
-      .status(500)
-      .json({ message: "Internal server error", success: false });
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
   }
-};
-
-module.exports = {
-  signUp,
-  login,
 };

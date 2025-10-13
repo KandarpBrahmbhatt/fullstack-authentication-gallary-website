@@ -1,5 +1,8 @@
-const { required, string } = require("joi");
-const mongoose = require("mongoose");
+import Joi from "joi";
+import mongoose from "mongoose";
+
+const { required, string } = Joi;
+
 const Schema = mongoose.Schema;
 
 // database connection model thai gayu aa
@@ -20,27 +23,6 @@ const UserSchema = new Schema({
   },
 });
 
-const postSchema = new Schema({
-  auther: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  image: {
-    type: String,
-    // default: " ",
-  },
-
-  like: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    },
-  ],
-});
-
 const userModel = mongoose.model("users", UserSchema);
 
-// module.exports = userModel;
+export default userModel;

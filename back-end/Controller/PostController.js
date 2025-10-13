@@ -1,26 +1,50 @@
 // const User = require("../Models/User.js");
-const UpdateProfile = async (req, res) => {
+// const UpdateProfile = async (req, res) => {
+//   try {
+//     let profileImage = "";
+//     if (req.file) {
+//       // profileImage = await uploadOnCloudinary(req.file.path);
+//       profileImage = "";
+//     }
+
+//     let user = await User.findByIdAndUpdate(
+//       req.userId,
+//       { profileImage },
+//       { new: true }
+//     );
+
+//     return res.status(200).json(user);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Update Profile" });
+//   }
+// };
+
+// module.exports = UpdateProfile;
+import uploadOnCloudinary from "../Models/cloudinary.js";
+import Post from "../Models/post.js";
+
+export const createPost = async (req, resp) => {
   try {
-    let profileImage = "";
+    let newPost;
     if (req.file) {
-      // profileImage = await uploadOnCloudinary(req.file.path);
-      profileImage = "";
+      let image = await uploadOnCloudinary(req.file.path);
+      newPost = await Post.create({
+        author: req.userId,
+        image,
+      });
+    } else {
+      newPost = await Post.create({
+        author: req.userId,
+      });
     }
 
-    let user = await User.findByIdAndUpdate(
-      req.userId,
-      { profileImage },
-      { new: true }
-    );
-
-    return res.status(200).json(user);
+    return resp.status(201).json(newPost);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Update Profile" });
+    return resp.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-module.exports = UpdateProfile;
 // export const like = async (req, resp) => {
 //   try {
 //     let postId = req.params.id;

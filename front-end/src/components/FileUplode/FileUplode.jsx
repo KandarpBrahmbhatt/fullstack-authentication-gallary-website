@@ -3,17 +3,37 @@ import "../FileUplode/FileUplode.css";
 import axios from "axios";
 
 const FileUplode = () => {
+  const [frontendImage, setfrontendImage] = useState("");
+  const [backendImage, setbackendImage] = useState("");
+
+  // let image1 = useRef;
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
-  const serverUrl = "http://localhost:8080"; // backend URL
+  const serverUrl = "http://localhost:8080/"; // backend URL
 
   const handleImageClick = () => inputRef.current.click();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
+    setbackendImage(file);
+    setfrontendImage(URL.createObjectURL(file));
   };
+  async function handleUploadPost() {
+    try {
+      let formdata = new FormData();
+      if (backendImage) {
+        formdata.append("image", backendImage);
+      }
 
+      let result = await axios.post(serverUrl + "/post/create", formdata, {
+        withCredentials: true,
+      });
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleSaveProfile = async () => {
     if (!image) return alert("Please select an image first!");
 
@@ -55,7 +75,10 @@ const FileUplode = () => {
         onChange={handleImageChange}
         style={{ display: "none" }}
       />
-
+      <button onClick={handleUploadPost}>post</button>
+      <div>
+        <img src={frontendImage || ""} alt="" />
+      </div>
       <button onClick={handleSaveProfile} style={{ marginTop: 10 }}>
         Save Profile
       </button>

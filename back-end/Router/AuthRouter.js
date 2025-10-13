@@ -1,13 +1,13 @@
-const { signUp, login } = require("../Controller/AuthController");
-// const { like, comment } = require("../Controller/PostController");
-const {
+import express from "express";
+import { signUp, login } from "../Controller/AuthController.js";
+// import { like, comment } from "../Controller/PostController.js";
+import {
   signupValidation,
   loginValidation,
-} = require("../Middleware/AuthValidation");
-// const { default: upload } = require("../Middleware/multer");
+} from "../Middleware/AuthValidation.js";
+// import upload from "../Middleware/multer.js";
 
-const router = require("express").Router();
-
+const router = express.Router();
 router.post("/login", (req, resp) => {
   resp.send("login Successfully");
 });
@@ -20,4 +20,4 @@ router.post("/login", loginValidation, login);
 
 // router.post("/like/:id", like); // post ni id mokalsu kaya post ma usere like kare 6e ae khabr padase paramas thi
 // router.post("/comment/:id", loginValidation, comment);
-module.exports = router;
+export default router;

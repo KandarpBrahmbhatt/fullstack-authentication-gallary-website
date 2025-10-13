@@ -18,6 +18,10 @@ const Gallary = () => {
   // Total pages
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
+  // const [frontendImage, setfrontendImage] = useState("");
+  // const [backendImage, setbackendImage] = useState("");
+
+  // let image = useRef;
   // Page change handlers
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
