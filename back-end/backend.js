@@ -22,9 +22,9 @@ const corsOptions = {
 app.use(cors(corsOptions)); // aa middalware use karvu pade cors ma
 
 app.use("/auth", AuthRouter); // router use karva mate middleware kari ne import kari 6e.
-app.use("/auth", PostRouter); // router use karva mate middleware kari ne import kari 6e.
+app.use("/user", PostRouter); // router use karva mate middleware kari ne import kari 6e.
 
 const port = process.env.PORT || 8080; // .env file mathi je port lakhiyo 6e use karva lakhiyu
 app.listen(port, () => {
-  console.log("server is started");
+  console.log(`server is started on  ${port}`);
 });

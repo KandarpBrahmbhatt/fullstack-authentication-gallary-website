@@ -1,5 +1,5 @@
-const User = require("../Models/User.js");
-export const UpdateProfile = async (req, res) => {
+// const User = require("../Models/User.js");
+const UpdateProfile = async (req, res) => {
   try {
     let profileImage = "";
     if (req.file) {
